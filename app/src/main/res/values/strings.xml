@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyDrawLayoutDemo</string>
+    <string name="input_cross_location">请输入搜索内容</string>
+    <string name="hasNotOpenGps">无网络</string>
+</resources>

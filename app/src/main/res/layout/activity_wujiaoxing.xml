@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--  <com.ironghui.mydrawlayoutdemo.wujioaxing.FiveView2
+          android:id="@+id/fiveview"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />-->
+    <!--  <com.ironghui.mydrawlayoutdemo.wujioaxing.XingView
+          android:layout_marginTop="150dp"
+          android:id="@+id/xingview"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />-->
+    <RatingBar
+        android:id="@+id/mratingbar"
+        style="@style/mratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:numStars="5"
+        android:progressTint="@color/colorPrimaryDark" />
+
+</LinearLayout>

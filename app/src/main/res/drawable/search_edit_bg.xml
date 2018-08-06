@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_window_focused="false">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <corners
+                android:topLeftRadius="3dp"
+                android:bottomLeftRadius="3dp"/>
+            <solid android:color="#F3F3F3"/>
+        </shape>
+    </item>
+    <item android:state_window_focused="true">
+        <shape>
+            <corners
+                android:topLeftRadius="3dp"
+                android:bottomLeftRadius="3dp"/>
+            <solid android:color="#F3F3F3"/>
+        </shape>
+    </item>
+</selector>

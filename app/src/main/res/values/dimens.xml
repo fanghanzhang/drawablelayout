@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="sliding_menu_offset">15dp</dimen>
+    <dimen name="offset_title">12dp</dimen>
+</resources>
