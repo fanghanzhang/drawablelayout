@@ -38,7 +38,6 @@ public class TabLayoutActivity extends AppCompatActivity {
         tab.addTab(tab.newTab().setText("你看"));
         tab.addTab(tab.newTab().setText("你看"));
         tab.addTab(tab.newTab().setText("你看"));
-        tab.addTab(tab.newTab().setText("你看"));
         tab.addTab(tab.newTab().setText("你再看"));
     }
 }
