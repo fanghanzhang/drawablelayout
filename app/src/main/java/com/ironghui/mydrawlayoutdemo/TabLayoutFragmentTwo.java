@@ -11,7 +11,7 @@ public class TabLayoutFragmentTwo extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_popwindow, null);
+        View view = inflater.inflate(R.layout.frament_cardview, null);
         return view;
     }
 
