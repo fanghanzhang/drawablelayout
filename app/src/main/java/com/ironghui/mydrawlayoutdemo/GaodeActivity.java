@@ -1,6 +1,7 @@
 package com.ironghui.mydrawlayoutdemo;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -25,6 +28,7 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
@@ -44,7 +48,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GaodeActivity extends AppCompatActivity implements LocationSource, AMapLocationListener, TextWatcher, PoiSearch.OnPoiSearchListener {
+public class GaodeActivity extends AppCompatActivity implements LocationSource, AMapLocationListener, TextWatcher, PoiSearch.OnPoiSearchListener,
+        AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, Inputtips.InputtipsListener {
     @BindView(R.id.mapView)
     MapView mapView;
     @BindView(R.id.search_edit_text)
@@ -55,6 +60,7 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
     private OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
+    private ProgressDialog progDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +71,8 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         initMap();
+        map.setOnMarkerClickListener(this);
+        map.setInfoWindowAdapter(this);
         initMyLocation();
         addtextChange();
     }
@@ -168,52 +176,29 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-       /* String newText = charSequence.toString().trim();
-        if ((newText != null) || (newText.trim().length() != 0)) {
-            InputtipsQuery inputquery = new InputtipsQuery(newText, editCity.getText().toString());
-            Inputtips inputTips = new Inputtips(this, inputquery);
-            inputTips.setInputtipsListener(this);
-            inputTips.requestInputtipsAsyn();
-        }*/
+
         String content = charSequence.toString().trim();//获取自动提示输入框的内容
         InputtipsQuery inputtipsQuery = new InputtipsQuery(content, "");//初始化一个输入提示搜索对象，并传入参数
         Inputtips inputtips = new Inputtips(this, inputtipsQuery);//定义一个输入提示对象，传入当前上下文和搜索对象
-        inputtips.setInputtipsListener(new Inputtips.InputtipsListener() {
-            @Override
-            public void onGetInputtips(List<Tip> list, int errcode) {
-               /* if (errcode == 1000 && list != null) {
-                    ArrayList datas = new ArrayList<>();
-                    for (int i = 0; i < list.size(); i++) {
-                        LocationBean locationBean = new LocationBean();
-                        Tip tip = list.get(i);
-                        locationBean.latitude = tip.getPoint().getLatitude();
-                        locationBean.longitude = tip.getPoint().getLongitude();
-                        locationBean.snippet = tip.getName();
-                        locationBean.title = tip.getDistrict();
-                        datas.add(locationBean);
-                    }
-//                    searchCarAdapter.setNewData(datas);
-                }*/
-                if (errcode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
-                    List<String> listString = new ArrayList<String>();
-                    for (int i = 0; i < list.size(); i++) {
-                        listString.add(list.get(i).getName());
-                    }
-                    ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.route_inputs, listString);
-                    searchEditText.setAdapter(aAdapter);
-                    aAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(GaodeActivity.this, errcode + "", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });//设置输入提示查询的监听，实现输入提示的监听方法onGetInputtips()
+        inputtips.setInputtipsListener(this);//设置输入提示查询的监听，实现输入提示的监听方法onGetInputtips()
         inputtips.requestInputtipsAsyn();//输入查询提示的异步接口实现
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-        doSearchQuery();
+//        doSearchQuery();
+        doSearchPoiQuery();
+    }
+
+    private void doSearchPoiQuery() {
+        showProgressDialog();// 显示进度框
+        PoiSearch.Query query = new PoiSearch.Query(keyWord, "", "武汉");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query.setPageSize(10);// 设置每页最多返回多少条poiitem
+        query.setPageNum(currentPage);// 设置查第一页
+        query.setCityLimit(true);
+        PoiSearch poiSearch = new PoiSearch(this, query);
+        poiSearch.setOnPoiSearchListener(this);
+        poiSearch.searchPOIAsyn();
     }
 
     private PoiResult poiResult; // poi返回的结果
@@ -223,12 +208,8 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
     private PoiSearch poiSearch;
     private List<PoiItem> poiItems;// poi数据
     private String keyWord;
-    //    private CommonAdapter adapter;
+
     private final int ADDRESS_LOCATION_GET = 3242;
-    private String POI_SEARCH_TYPE = "汽车服务|汽车销售|" +
-            "//汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|" +
-            "//住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|" +
-            "//金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
 
     private void doSearchQuery() {
         latLonPoint = new LatLonPoint(116.472995, 39.993743);// 116.472995,39.993743
@@ -251,10 +232,9 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
 
     @Override
     public void onPoiSearched(PoiResult result, int code) {
+        dissmissProgressDialog();
         if (code == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getQuery() != null) {// 搜索poi的结果
-                Log.d("result", result + "");
-                Log.d("result", code + "");
                 if (result.getQuery().equals(query)) {// 是否是同一次搜索
                     poiResult = result;
                     int country = poiResult.getPageCount();
@@ -262,9 +242,6 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
                     List<SuggestionCity> suggestionCities = poiResult.getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
                     if (poiItems != null && poiItems.size() > 0) {
                         poiItems.clear();
-                     /*   if (adapter != null) {
-                            adapter.notifyDataSetChanged();
-                        }*/
                     }
                     poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
 
@@ -283,5 +260,72 @@ public class GaodeActivity extends AppCompatActivity implements LocationSource, 
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
 
+    }
+
+    /**
+     * 显示进度框
+     */
+    private void showProgressDialog() {
+        if (progDialog == null)
+            progDialog = new ProgressDialog(this);
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setCancelable(false);
+        progDialog.setMessage("正在搜索:\n" + keyWord);
+        progDialog.show();
+    }
+
+    /**
+     * 隐藏进度框
+     */
+    private void dissmissProgressDialog() {
+        if (progDialog != null) {
+            progDialog.dismiss();
+        }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
+        return false;
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        View view = getLayoutInflater().inflate(R.layout.poikeywordsearch_uri, null);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(marker.getTitle());
+
+        TextView snippet = (TextView) view.findViewById(R.id.snippet);
+        snippet.setText(marker.getSnippet());
+        ImageButton button = (ImageButton) view.findViewById(R.id.start_amap_app);
+        // 调起高德地图app
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                startAMapNavi(marker);
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> list, int errcode) {
+        if (errcode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
+            List<String> listString = new ArrayList<String>();
+            for (int i = 0; i < list.size(); i++) {
+                listString.add(list.get(i).getName());
+            }
+            ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.route_inputs, listString);
+            searchEditText.setAdapter(aAdapter);
+            aAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(GaodeActivity.this, errcode + "", Toast.LENGTH_SHORT).show();
+        }
     }
 }

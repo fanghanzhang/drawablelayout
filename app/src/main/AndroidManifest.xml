@@ -58,13 +58,16 @@
 
         </activity>
         <activity android:name=".TabLayoutActivity">
+
+        </activity>
+        <activity android:name=".circlepicture.ClipImageActivity"></activity>
+        <activity android:name=".gaode.MarkersActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".circlepicture.ClipImageActivity"></activity>
     </application>
 
 </manifest>
