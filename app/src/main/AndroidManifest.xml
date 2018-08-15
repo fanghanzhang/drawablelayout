@@ -36,9 +36,6 @@
 
         </activity>
 
-        <activity android:name=".PoiKeywordSearchActivity">
-
-        </activity>
         <activity android:name=".AddMarkerActivity">
 
         </activity>
@@ -62,6 +59,9 @@
         </activity>
         <activity android:name=".circlepicture.ClipImageActivity"></activity>
         <activity android:name=".gaode.MarkersActivity">
+
+        </activity>
+        <activity android:name=".gaode.PoiAroundSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
