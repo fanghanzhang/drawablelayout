@@ -62,6 +62,12 @@
 
         </activity>
         <activity android:name=".gaode.PoiAroundSearchActivity">
+
+        </activity>
+        <activity android:name=".gaode.PoiWordsActivity">
+
+        </activity>
+        <activity android:name=".showpart.ShowPartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
