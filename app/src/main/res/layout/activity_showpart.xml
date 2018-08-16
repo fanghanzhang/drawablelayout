@@ -13,17 +13,18 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:text="partone" />
+            android:text="类别一" />
 
         <Button
             android:id="@+id/parttwo"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:text="parttwo" />
+            android:text="类别二" />
     </LinearLayout>
 
     <FrameLayout
+        android:layout_marginTop="30dp"
         android:id="@+id/framlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></FrameLayout>

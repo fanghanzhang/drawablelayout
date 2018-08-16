@@ -56,29 +56,7 @@ public class PoiWordsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_poiwords);
         init();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("type", "A")
-                        .build();
-                Request request = new Request.Builder()
-                        .url("http://192.168.103.121:8080/payroll/appController/test.do?")
-                        .post(requestBody)
-                        .build();
 
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-                    String string = response.body().string();
-                    System.out.println(string);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).start();
     }
 
     /**
