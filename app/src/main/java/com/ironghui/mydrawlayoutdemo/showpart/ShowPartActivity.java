@@ -58,12 +58,6 @@ public class ShowPartActivity extends AppCompatActivity {
 
     private void initFragmentOne() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-       /* if (fragment == null) {
-            fragment = new PartOneFragment();
-            transaction.add(R.id.framlayout, fragment);
-        }
-        hideFragment(transaction);
-        transaction.show(fragment);*/
         if (fragment == null) {
             fragment = new PartOneFragment();
         }
@@ -73,12 +67,6 @@ public class ShowPartActivity extends AppCompatActivity {
 
     private void initFragmentTwo() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-       /* if (twoFragment == null) {
-            twoFragment = new PartTwoFragment();
-            transaction.add(R.id.framlayout, twoFragment);
-        }
-        hideFragment(transaction);
-        transaction.show(twoFragment);*/
         if (twoFragment == null) {
             twoFragment = new PartTwoFragment();
         }

@@ -23,12 +23,7 @@ public class ListViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
         ButterKnife.bind(this);
-        initData();
         initView();
-    }
-
-    private void initData() {
-
     }
 
     private void initView() {
