@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ironghui.mydrawlayoutdemo.R;
+import com.ironghui.mydrawlayoutdemo.circlepicture.CircleImageView;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class PartAdapter extends BaseAdapter {
     private List<PartBean.TestDetailsBean> list;
     private OneHolder oneHolder;
     private TwoHolder twoHolder;
+    private ThreeHolder threeHolder;
 
     public PartAdapter(Context context, List<PartBean.TestDetailsBean> list) {
         this.mCOntext = context;
@@ -54,7 +56,6 @@ public class PartAdapter extends BaseAdapter {
                 oneHolder.textview.setText(list.get(i).getName());
                 break;
             case 3:
-            case 4:
                 if (convertview == null) {
                     convertview = LayoutInflater.from(mCOntext).inflate(R.layout.fragment_parttwo, viewGroup, false);
                     twoHolder = new TwoHolder();
@@ -64,6 +65,17 @@ public class PartAdapter extends BaseAdapter {
                     convertview.getTag();
                 }
                 twoHolder.texttpartone.setText(list.get(i).getTestDetailId());
+                break;
+            case 4:
+                if (convertview == null) {
+                    convertview = LayoutInflater.from(mCOntext).inflate(R.layout.activity_circle, viewGroup, false);
+                    threeHolder = new ThreeHolder();
+                    threeHolder.circleImageView = convertview.findViewById(R.id.circleimageview);
+                    convertview.setTag(threeHolder);
+                } else {
+                    convertview.getTag();
+                }
+                threeHolder.circleImageView.setImageResource(R.drawable.hugh);
                 break;
         }
         return convertview;
@@ -94,5 +106,9 @@ public class PartAdapter extends BaseAdapter {
 
     class TwoHolder {
         private TextView texttpartone;
+    }
+
+    class ThreeHolder {
+        CircleImageView circleImageView;
     }
 }

@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scrollview"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    </ListView>
-</LinearLayout>
+    <!-- <com.ironghui.mydrawlayoutdemo.ScrollDisabledListView
+         android:id="@+id/lv"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+     </com.ironghui.mydrawlayoutdemo.ScrollDisabledListView>-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="textview布局" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="20dp" />
+
+            <com.ironghui.mydrawlayoutdemo.scrollviewandlistview.MyListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.ironghui.mydrawlayoutdemo.scrollviewandlistview.MyListView>
+            <!--  <ListView
+                  android:id="@+id/lv"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"></ListView>-->
+        </LinearLayout>
+</ScrollView>

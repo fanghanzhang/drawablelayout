@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -20,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShowPartThreeActivity extends AppCompatActivity {
+public class ShowPartThreeActivity extends AppCompatActivity implements PartThreeFragment.MyListener{
 
     @BindView(R.id.partone)
     Button partone;
@@ -45,10 +46,11 @@ public class ShowPartThreeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showpart);
         ButterKnife.bind(this);
-        parseJson();
+//        parseJson();
         fragmentManager = getFragmentManager();
         initFragmentOne();
-        initListview();
+
+//        initListview();
         Bundle bundle = new Bundle();
         bundle.putString("putstring", "放置进入的值");
         myreportPerson.setArguments(bundle);
@@ -112,5 +114,10 @@ public class ShowPartThreeActivity extends AppCompatActivity {
                 initFragmenttwo();
                 break;
         }
+    }
+
+    @Override
+    public void getString(String str) {
+        Log.d("listener",str.toString());
     }
 }

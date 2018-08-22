@@ -29,6 +29,29 @@ public class ListViewAdapter extends BaseAdapter {
         mList.add(new ItemType("李四", "0", "963"));
         mList.add(new ItemType("嗲高了", "0", "123"));
         mList.add(new ItemType("吗啡", "1", "1203"));
+        mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));
+        mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));
+        mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));
+        mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));
+        mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));  mList.add(new ItemType("王麻子", "1", "789"));
+        mList.add(new ItemType("李四", "0", "963"));
+        mList.add(new ItemType("嗲高了", "0", "123"));
+        mList.add(new ItemType("吗啡", "1", "1203"));
     }
 
     @Override
